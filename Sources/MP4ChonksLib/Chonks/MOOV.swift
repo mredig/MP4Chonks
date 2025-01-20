@@ -16,19 +16,22 @@ public struct MOOV: ChonkProtocol {
 		var trak: [TRAK] = []
 
 		while scanner.isAtEnd == false {
-			let nextBox = try scanner.scanNextBox()
+			let nextBoxHeader = try scanner.scanNextBoxHeader()
 
-			switch nextBox.magic {
+			switch nextBoxHeader.magic {
 			case MVHD.magic:
+				let nextBox = try scanner.scanBoxContent(header: nextBoxHeader)
 				mvhd = try MVHD(decoding: nextBox.data)
 			case TRAK.magic:
+				let nextBox = try scanner.scanBoxContent(header: nextBoxHeader)
 				trak.append(try TRAK(decoding: nextBox.data))
-			case "mvex", "udta": break
+			case "mvex", "udta":
+				scanner.skipBoxContent(header: nextBoxHeader)
 			default:
 				try ChonkError.debugThrow(
 					ChonkError.unexpectedValue(
 						type: Self.self,
-						value: "Unexpected child box: \(nextBox.magic)"))
+						value: "Unexpected child box: \(nextBoxHeader.magic)"))
 			}
 		}
 

@@ -26,6 +26,28 @@ extension DataScanner {
 		let data: Data
 	}
 
+	struct BoxHeader: Sendable {
+		let magic: String
+		let count: Int
+	}
+
+	mutating func scanNextBoxHeader() throws -> BoxHeader {
+		let boxSize: UInt32 = try scan(endianness: .big)
+		let boxMagic: String = try scanMagic()
+
+		return BoxHeader(magic: boxMagic, count: Int(boxSize) - 8)
+	}
+
+	mutating func scanBoxContent(header: BoxHeader) throws -> Box {
+		let bytes = try scanBytes(header.count)
+		return Box(magic: header.magic, data: bytes)
+	}
+
+	mutating func skipBoxContent(header: BoxHeader) {
+		currentOffset += header.count
+	}
+
+	@available(*, deprecated)
 	mutating func scanNextBox() throws -> Box {
 		let boxSize: UInt32 = try scan(endianness: .big)
 		let boxMagic: String = try scanMagic()

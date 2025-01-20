@@ -23,6 +23,6 @@ struct MP4ChonksExe: ParsableCommand {
 
 		print(test.moov)
 
-		print(test.getVideoTimescale())
+		print(test.getVideoTimescale() as Any)
     }
 }

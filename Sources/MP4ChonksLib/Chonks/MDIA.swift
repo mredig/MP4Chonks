@@ -15,20 +15,22 @@ public struct MDIA: ChonkProtocol {
 		var hdlr: HDLR?
 
 		while scanner.isAtEnd == false {
-			let nextBox = try scanner.scanNextBox()
+			let nextBoxHeader = try scanner.scanNextBoxHeader()
 
-			switch nextBox.magic {
+			switch nextBoxHeader.magic {
 			case MDHD.magic:
+				let nextBox = try scanner.scanBoxContent(header: nextBoxHeader)
 				mdhd = try MDHD(decoding: nextBox.data)
 			case HDLR.magic:
+				let nextBox = try scanner.scanBoxContent(header: nextBoxHeader)
 				hdlr = try HDLR(decoding: nextBox.data)
 			case "minf":
-				break
+				scanner.skipBoxContent(header: nextBoxHeader)
 			default:
 				try ChonkError.debugThrow(
 					ChonkError.unexpectedValue(
 						type: Self.self,
-						value: "Unexpected child box: \(nextBox.magic)"))
+						value: "Unexpected child box: \(nextBoxHeader.magic)"))
 			}
 		}
 

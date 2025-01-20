@@ -16,19 +16,22 @@ public struct TRAK: ChonkProtocol {
 		var mdia: MDIA?
 
 		while scanner.isAtEnd == false {
-			let nextBox = try scanner.scanNextBox()
+			let nextBoxHeader = try scanner.scanNextBoxHeader()
 
-			switch nextBox.magic {
+			switch nextBoxHeader.magic {
 			case TKHD.magic:
-				tkhd = try TKHD(decoding: nextBox.data)
+				let boxContent = try scanner.scanBoxContent(header: nextBoxHeader)
+				tkhd = try TKHD(decoding: boxContent.data)
 			case MDIA.magic:
-				mdia = try MDIA(decoding: nextBox.data)
-			case "tref", "edts": break
+				let boxContent = try scanner.scanBoxContent(header: nextBoxHeader)
+				mdia = try MDIA(decoding: boxContent.data)
+			case "tref", "edts":
+				scanner.skipBoxContent(header: nextBoxHeader)
 			default:
 				try ChonkError.debugThrow(
 					ChonkError.unexpectedValue(
 						type: Self.self,
-						value: "Unexpected child box: \(nextBox.magic)"))
+						value: "Unexpected child box: \(nextBoxHeader.magic)"))
 			}
 		}
 

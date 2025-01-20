@@ -11,18 +11,19 @@ public class MP4Chonker {
 		var moov: MOOV?
 
 		while scanner.isAtEnd == false {
-			let nextBox = try scanner.scanNextBox()
+			let nextBoxHeader = try scanner.scanNextBoxHeader()
 
-			switch nextBox.magic {
+			switch nextBoxHeader.magic {
 			case MOOV.magic:
-				moov = try MOOV(decoding: nextBox.data)
-				break
-			case "ftyp": break
+				let boxContent = try scanner.scanBoxContent(header: nextBoxHeader)
+				moov = try MOOV(decoding: boxContent.data)
+			case "ftyp":
+				scanner.skipBoxContent(header: nextBoxHeader)
 			default:
 				try ChonkError.debugThrow(
 					ChonkError.unexpectedValue(
 						type: Self.self,
-						value: "Unexpected child box: \(nextBox.magic)"))
+						value: "Unexpected child box: \(nextBoxHeader.magic)"))
 			}
 		}
 
