@@ -10,14 +10,6 @@ extension DataScanner {
 		try magic.append(scanUTF8Character())
 		return magic
 	}
-
-	mutating func scanRawFlags() throws -> UInt32 {
-		var out: UInt32 = 0
-		out |= UInt32(try scanByte()) << (8 * 2)
-		out |= UInt32(try scanByte()) << 8
-		out |= UInt32(try scanByte())
-		return out
-	}
 }
 
 extension DataScanner {
