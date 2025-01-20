@@ -22,5 +22,7 @@ struct MP4ChonksExe: ParsableCommand {
 		let test = try MP4Chonker(mp4File: file)
 
 		print(test.moov)
+
+		print(test.getVideoTimescale())
     }
 }

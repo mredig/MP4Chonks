@@ -32,4 +32,12 @@ public class MP4Chonker {
 
 		self.moov = moov
 	}
+
+	public func getVideoTimescale() -> UInt32? {
+		guard
+			let videoTrack = moov.trak.first(where: { $0.mdia.hdlr.handlerType == .video })
+		else { return nil }
+
+		return videoTrack.mdia.mdhd.timescale
+	}
 }
