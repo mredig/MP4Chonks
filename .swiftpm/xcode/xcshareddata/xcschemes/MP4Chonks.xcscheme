@@ -52,7 +52,11 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "&quot;/Users/mredig/Swap/camcamtest/7EF3D27C-5255-4970-950B-8A0D8594D2D9/A4310344-83E0-4DBC-AE51-4CD3EEC65DC9/2024-12-31T100032.000Z/init.mp4&quot;"
+            argument = "--mp4 &quot;/Users/mredig/Swap/camcamtest/7EF3D27C-5255-4970-950B-8A0D8594D2D9/A4310344-83E0-4DBC-AE51-4CD3EEC65DC9/2024-12-31T100032.000Z/init.mp4&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "&quot;/Users/mredig/Swap/camcamtest/7EF3D27C-5255-4970-950B-8A0D8594D2D9/A4310344-83E0-4DBC-AE51-4CD3EEC65DC9/2024-12-31T100032.000Z/live000013.m4s&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

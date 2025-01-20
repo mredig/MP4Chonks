@@ -65,3 +65,10 @@ extension DataScanner {
 		return (version, Flags(rawValue: rawFlags))
 	}
 }
+
+extension DataScanner {
+	mutating func scanOptional<I: BinaryInteger>(_ condition: () -> Bool) throws -> I? {
+		guard condition() else { return nil }
+		return try scan()
+	}
+}

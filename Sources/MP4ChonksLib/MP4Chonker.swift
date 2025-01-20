@@ -41,4 +41,32 @@ public class MP4Chonker {
 
 		return videoTrack.mdia.mdhd.timescale
 	}
+
+	public func info(fromM4SFile m4sFile: URL) throws -> MOOF {
+		var scanner = try DataScanner(url: m4sFile)
+		scanner.defaultEndianness = .big
+
+		var moof: MOOF?
+
+		while scanner.isAtEnd == false {
+			let nextBoxHeader = try scanner.scanNextBoxHeader()
+
+			switch nextBoxHeader.magic {
+			case MOOF.magic:
+				let boxContent = try scanner.scanBoxContent(header: nextBoxHeader)
+				try moof.setValueOnce(MOOF(decoding: boxContent.data))
+			case "styp", "sidx", "mdat":
+				scanner.skipBoxContent(header: nextBoxHeader)
+			default:
+				try ChonkError.debugThrow(
+					ChonkError.unexpectedValue(
+						type: Self.self,
+						value: "Unexpected child box: \(nextBoxHeader.magic)"))
+			}
+		}
+
+		guard let moof else { throw ChonkError.missingValue(type: MOOF.self, value: "No moof in this file") }
+
+		return moof
+	}
 }
