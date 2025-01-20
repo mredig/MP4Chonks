@@ -16,7 +16,7 @@ public class MP4Chonker {
 			switch nextBoxHeader.magic {
 			case MOOV.magic:
 				let boxContent = try scanner.scanBoxContent(header: nextBoxHeader)
-				moov = try MOOV(decoding: boxContent.data)
+				try moov.setValueOnce(MOOV(decoding: boxContent.data)) 
 			case "ftyp":
 				scanner.skipBoxContent(header: nextBoxHeader)
 			default:

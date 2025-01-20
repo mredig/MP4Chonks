@@ -26,3 +26,12 @@ extension ChonkProtocol {
 //		return accumulator
 //	}
 }
+
+extension Optional where Wrapped: ChonkProtocol {
+	mutating func setValueOnce(_ newValue: Wrapped) throws(ChonkError) {
+		guard case .none = self else {
+			throw .duplicateValue(type: Wrapped.self, value: "Only a single \(Wrapped.self) value allowed in this container")
+		}
+		self = .some(newValue)
+	}
+}
