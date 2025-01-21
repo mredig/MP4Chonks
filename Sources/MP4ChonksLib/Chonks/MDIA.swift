@@ -7,6 +7,15 @@ public struct MDIA: ChonkProtocol {
 //	public let minf: MINF
 	public let hdlr: HDLR
 
+	public var description: String {
+		"""
+		MDIA:
+		\(mdhd.description.prefixingLines(with: "\t"))
+		\(hdlr.description.prefixingLines(with: "\t"))
+		"""
+	}
+
+
 	public init(decoding data: Data) throws {
 		var scanner = DataScanner(data)
 		scanner.defaultEndianness = .big

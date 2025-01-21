@@ -18,6 +18,14 @@ public struct HDLR: ChonkProtocol {
 	public let handlerType: HandlerType
 	public let name: String
 
+	public var description: String {
+		"""
+		HDLR:
+		HandlerType: \(handlerType.stringValue ?? "\(handlerType.rawValue)")
+		Name: \(name)
+		"""
+	}
+
 	init(decoding data: Data) throws {
 		var scanner = DataScanner(data: data)
 		scanner.defaultEndianness = .big

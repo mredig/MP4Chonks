@@ -9,6 +9,22 @@ public struct TRUN: ChonkProtocol {
 
 	public let samples: [Sample]
 
+	public var description: String {
+		let samplesss = samples
+			.enumerated()
+			.map { $0.element.description.prefixingLines(with: "\($0.offset) ")}
+			.joined(separator: "\n")
+
+		return """
+			TRUN:
+			flags: \(flags)
+			sampleCount: \(sampleCount)
+			dataOffset: \(dataOffset as Any)
+			firstSampleFlags: \(firstSampleFlags as Any)
+			\(samplesss.prefixingLines(with: "\t"))
+			"""
+	}
+
 	init(flags: TRUNFlags, sampleCount: UInt32, dataOffset: Int32?, firstSampleFlags: TRUNFlags?, samples: [Sample]) {
 		self.flags = flags
 		self.sampleCount = sampleCount
@@ -67,10 +83,25 @@ public struct TRUN: ChonkProtocol {
 			samples: samples)
 	}
 
-	public struct Sample: Sendable, Hashable {
+	public struct Sample: Sendable, Hashable, CustomStringConvertible {
 		public let sampleDuration: UInt32?
 		public let sampleSize: UInt32?
 		public let sampleFlags: UInt32?
 		public let sampleCompositionTimeOffset: UInt32?
+
+		public var description: String {
+			let components: [String] = [
+				("sampleDuration", sampleDuration),
+				("sampleSize", sampleSize),
+				("sampleFlags", sampleFlags),
+				("sampleCompositionTimeOffset", sampleCompositionTimeOffset),
+			]
+				.compactMap {
+					guard let value = $0.1 else { return nil }
+					return "\($0.0): \(value)"
+				}
+
+			return "Sample:\n\(components.joined(separator: "\n"))"
+		}
 	}
 }

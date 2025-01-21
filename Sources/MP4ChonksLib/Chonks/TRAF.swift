@@ -5,6 +5,18 @@ public struct TRAF: ChonkProtocol {
 	public let tfhd: TFHD
 	public let trun: [TRUN] // zero or more
 
+	public var description: String {
+		let truns = trun
+			.map { $0.description }
+			.joined(separator: "\n")
+
+		return """
+			TRAF:
+			\(tfhd.description.prefixingLines(with: "\t"))
+			\(truns.description.prefixingLines(with: "\t"))
+			"""
+	}
+
 	init(decoding data: Data) throws {
 		var scanner = DataScanner(data: data)
 		scanner.defaultEndianness = .big

@@ -10,6 +10,19 @@ public struct TFHD: ChonkProtocol {
 	public let defaultSampleSize: UInt32?
 	public let defaultSampleFlags: UInt32?
 
+	public var description: String {
+		"""
+		TFHD:
+		flags: \(flags)
+		trackID: \(trackID)
+		baseDataOffset: \(baseDataOffset as Any)
+		sampleDescriptionIndex: \(sampleDescriptionIndex as Any)
+		defaultSampleDuration: \(defaultSampleDuration as Any)
+		defaultSampleSize: \(defaultSampleSize as Any)
+		defaultSampleFlags: \(defaultSampleFlags as Any)
+		"""
+	}
+
 	init(
 		flags: TFHDFlags,
 		trackID: UInt32,

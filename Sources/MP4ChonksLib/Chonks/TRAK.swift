@@ -8,6 +8,14 @@ public struct TRAK: ChonkProtocol {
 	 public let mdia: MDIA
 	// public let edts: EDTS?
 
+	public var description: String {
+		"""
+		TRAK:
+		\(tkhd.description.prefixingLines(with: "\t"))
+		\(mdia.description.prefixingLines(with: "\t"))
+		"""
+	}
+
 	public init(decoding data: Data) throws {
 		var scanner = DataScanner(data)
 		scanner.defaultEndianness = .big

@@ -5,6 +5,18 @@ public struct MOOF: ChonkProtocol {
 	public let mfhd: MFHD
 	public let traf: [TRAF] // zero or more
 
+	public var description: String {
+		let trafs = traf
+			.map { $0.description.prefixingLines(with: "\($0.tfhd.trackID) ") }
+			.joined(separator: "\n")
+
+		return """
+			MOOF:
+			\(mfhd.description.prefixingLines(with: "\t"))
+			\(trafs.description.prefixingLines(with: "\t"))
+			"""
+	}
+
 	public init(decoding data: Data) throws {
 		var scanner = DataScanner(data: data)
 		scanner.defaultEndianness = .big

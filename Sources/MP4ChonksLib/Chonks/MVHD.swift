@@ -13,6 +13,20 @@ public struct MVHD: ChonkProtocol {
 	public let matrix: [Int32]
 	public let nextTrackID: UInt32
 
+	public var description: String {
+		"""
+		MVHD:
+		creationTime: \(creationTime)
+		modificationTime: \(modificationTime)
+		timescale: \(timescale)
+		duration: \(duration)
+		rate: \(rate)
+		volume: \(volume)
+		matrix: \(matrix)
+		nextTrackID: \(nextTrackID)
+		"""
+	}
+
 	public init(decoding data: Data) throws {
 		var scanner = DataScanner(data: data)
 		scanner.defaultEndianness = .big

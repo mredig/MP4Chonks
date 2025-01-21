@@ -9,6 +9,17 @@ public struct MDHD: ChonkProtocol {
 	public let duration: UInt
 	public let languageCode: [UInt8]
 
+	public var description: String {
+		"""
+		MDHD:
+		creationTime: \(creationTime)
+		modificationTime: \(modificationTime)
+		timescale: \(timescale)
+		duration: \(duration)
+		languageCode: \(languageCode)
+		"""
+	}
+
 	public init(decoding data: Data) throws {
 		var scanner = DataScanner(data)
 		scanner.defaultEndianness = .big

@@ -8,6 +8,18 @@ public struct MOOV: ChonkProtocol {
 //	public let mvex: [MVEX] // zero or more
 //	public let udta: UDTA? // zero or one
 
+	public var description: String {
+		let traks = trak
+			.map { $0.description.prefixingLines(with: "\($0.tkhd.trackID) ") }
+			.joined(separator: "\n")
+
+		return """
+			MOOV:
+			\(mvhd.description.prefixingLines(with: "\t"))
+			\(traks.description.prefixingLines(with: "\t"))
+			"""
+	}
+
 	public init(decoding data: Data) throws {
 		var scanner = DataScanner(data: data)
 		scanner.defaultEndianness = .big

@@ -1,7 +1,7 @@
 import DataScanner
 import Foundation
 
-protocol ChonkProtocol {
+protocol ChonkProtocol: CustomStringConvertible {
 	static var magic: String { get }
 
 	init(decoding data: Data) throws

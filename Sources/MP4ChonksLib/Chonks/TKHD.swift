@@ -14,6 +14,22 @@ public struct TKHD: ChonkProtocol {
 	public let width: Int32
 	public let height: Int32
 
+	public var description: String {
+		"""
+		TKHD:
+		flags: \(flags)
+		creationTime: \(creationTime)
+		modificationTime: \(modificationTime)
+		trackID: \(trackID)
+		duration: \(duration)
+		layer: \(layer)
+		volume: \(volume)
+		matrix: \(matrix)
+		width: \(width)
+		height: \(height)
+		"""
+	}
+
 	public init(decoding data: Data) throws {
 		var scanner = DataScanner(data: data)
 		scanner.defaultEndianness = .big
