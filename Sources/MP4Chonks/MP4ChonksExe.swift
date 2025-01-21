@@ -20,19 +20,20 @@ struct MP4ChonksExe: ParsableCommand {
 	var mp4File: URL
 
 	@Argument(
-		help: "Path to m4s file",
+		help: "Path to m4s file(s)",
 		completion: .file(extensions: ["m4s"]),
 		transform: {
 			URL(filePath: $0)
 		})
-	var file: URL
+	var m4sFiles: [URL]
 
     mutating func run() throws {
-		let test = try MP4Chonker(mp4File: mp4File)
+		let mp4 = try MP4Chonker(mp4File: mp4File)
 
-		print(test.moov)
-
-//		print(test.getVideoTimescale() as Any)
-		try print(test.info(fromM4SFile: file))
+		for m4sFile in m4sFiles {
+			let rationalDuration = try mp4.duration(forM4SFile: m4sFile)
+			let floatDuration = Double(rationalDuration.numerator) / Double(rationalDuration.denominator)
+			print("\(m4sFile.lastPathComponent): \(floatDuration)s")
+		}
     }
 }
