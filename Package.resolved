@@ -1,13 +1,13 @@
 {
-  "originHash" : "3ef8840ad952c85ff22fa8d6ddc0b17bfee09858eab2b4763a14828a6d2abe4e",
+  "originHash" : "fe39a02fae7f42fb8a58b5182c347da2a562741542dd5d548d138b4233d6dd0f",
   "pins" : [
     {
       "identity" : "datascanner",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mredig/DataScanner.git",
       "state" : {
-        "revision" : "5148bfbc3e15c179a88a3993b65a36c3b8a583a1",
-        "version" : "0.4.1"
+        "revision" : "42f829174b9205af0142afab62b09b9f210437ab",
+        "version" : "0.4.2"
       }
     },
     {
