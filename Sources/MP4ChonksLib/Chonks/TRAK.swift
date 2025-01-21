@@ -5,7 +5,7 @@ import SwiftPizzaSnips
 public struct TRAK: ChonkProtocol {
 	public let tkhd: TKHD
 	// public let tref: TREF?
-	 public let mdia: MDIA
+	public let mdia: MDIA
 	// public let edts: EDTS?
 
 	public var description: String {

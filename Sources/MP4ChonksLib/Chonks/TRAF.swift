@@ -17,7 +17,7 @@ public struct TRAF: ChonkProtocol {
 			"""
 	}
 
-	init(decoding data: Data) throws {
+	public init(decoding data: Data) throws {
 		var scanner = DataScanner(data: data)
 		scanner.defaultEndianness = .big
 
